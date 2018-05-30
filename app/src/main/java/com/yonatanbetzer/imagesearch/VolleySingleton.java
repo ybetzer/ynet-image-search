@@ -4,14 +4,28 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class VolleySingleton {
     private static VolleySingleton mInstance = null;
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
+    private HashMap<String, JSONObject> cache_json_object_responses = new HashMap<>();
 
     private VolleySingleton(){
         mRequestQueue = Volley.newRequestQueue(ImageSearchApplication.getAppContext());
@@ -41,4 +55,39 @@ public class VolleySingleton {
         return this.mImageLoader;
     }
 
+    public void getJSONObjectAsync(final String url,
+                                   final AsyncHTTPJSONResponseHandler handler) {
+
+        if (cache_json_object_responses.get(url) != null) {
+            handler.onSuccess(cache_json_object_responses.get(url));
+        } else {
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                    (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            if(handler != null) {
+                                cache_json_object_responses.put(url, response);
+                                handler.onSuccess(response);
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            if(handler != null) {
+                                handler.onFailure(error.getLocalizedMessage(), 0);
+                            }
+
+                        }
+                    });
+
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    2500,
+                    3,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            jsonObjectRequest.setShouldCache(true);
+            getRequestQueue().add(jsonObjectRequest);
+        }
+    }
 }

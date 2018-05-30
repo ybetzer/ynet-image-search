@@ -32,6 +32,8 @@ public class ImageSearchActivity extends Activity {
     RecyclerView imageGrid;
     ImageSearchAdapter imageGridAdapter;
 
+    ArrayList<ImageResult> results = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,10 +46,6 @@ public class ImageSearchActivity extends Activity {
 
         imageGrid = findViewById(R.id.image_grid);
         imageGrid.setHasFixedSize(true);
-        ArrayList<ImageResult> results = new ArrayList<>();
-        ImageResult item = new ImageResult();
-        item.setImageUrl("https://o.aolcdn.com/images/dims3/GLOB/crop/2133x1067+0+245/resize/630x315!/format/jpg/quality/85/http%3A%2F%2Fo.aolcdn.com%2Fhss%2Fstorage%2Fmidas%2F117113dd871a765ef87826ad13a1dd7%2F204359485%2FRTR3QGIE.jpeg");
-        results.add(item);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
         layoutManager.setFlexDirection(FlexDirection.COLUMN);
         layoutManager.setJustifyContent(JustifyContent.FLEX_END);
@@ -126,6 +124,18 @@ public class ImageSearchActivity extends Activity {
         if(query != null && query.length() > 0) {
             removeFocusFromSearchView();
             Toast.makeText(ImageSearchActivity.this, query, Toast.LENGTH_LONG).show();
+            PixabayAPI.search(query, new AsyncImageSearchResultResponseHandler() {
+                @Override
+                public void onSuccess(ArrayList<ImageResult> responseBody) {
+                    results.addAll(responseBody);
+                    imageGridAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onFailure(String error, int errorCode) {
+
+                }
+            });
         }
     }
 }
