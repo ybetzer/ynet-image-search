@@ -192,7 +192,6 @@ public class ImageSearchActivity extends Activity {
             }
             isLoading = true;
             removeFocusFromSearchView();
-            Toast.makeText(ImageSearchActivity.this, query, Toast.LENGTH_LONG).show();
             PixabayAPI.search(query, page, Constants.RESULTS_PER_PAGE, new AsyncImageSearchResultResponseHandler() {
                 @Override
                 public void onSuccess(ArrayList<ImageResult> responseBody) {

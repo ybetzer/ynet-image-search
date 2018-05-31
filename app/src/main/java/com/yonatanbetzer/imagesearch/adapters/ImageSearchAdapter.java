@@ -5,7 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
+import com.yonatanbetzer.imagesearch.application.ImageSearchApplication;
 import com.yonatanbetzer.imagesearch.data_objects.ImageResult;
 import com.yonatanbetzer.imagesearch.R;
 import com.yonatanbetzer.imagesearch.adapters.viewholders.ImageResultViewHolder;
@@ -15,7 +18,7 @@ import java.util.ArrayList;
 public class ImageSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int ITEM = 1;
-
+    private int lastPosition = -1;
     private ArrayList<ImageResult> images;
     public ImageSearchAdapter(ArrayList<ImageResult> imagesParam) {
         images = imagesParam;
@@ -54,6 +57,7 @@ public class ImageSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         switch (getItemViewType(position)) {
             case ITEM:
                 bindItemViewHolder((ImageResultViewHolder) holder, position);
+                setAnimation(holder.itemView, position);
                 break;
             default:
                 break;
@@ -75,4 +79,13 @@ public class ImageSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return images.size();
     }
 
+    private void setAnimation(View viewToAnimate, int position)
+    {
+        if (position > lastPosition)
+        {
+            Animation animation = AnimationUtils.loadAnimation(ImageSearchApplication.getAppContext(), android.R.anim.slide_in_left);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
+    }
 }

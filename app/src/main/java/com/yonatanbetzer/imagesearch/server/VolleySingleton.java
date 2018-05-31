@@ -29,10 +29,9 @@ public class VolleySingleton {
         mRequestQueue = Volley.newRequestQueue(ImageSearchApplication.getAppContext());
 
         mImageLoader = new ImageLoader(this.mRequestQueue, new ImageLoader.ImageCache() {
-
             ActivityManager am = (ActivityManager) ImageSearchApplication.getAppContext().getSystemService(Context.ACTIVITY_SERVICE);
             int memClassBytes = am.getMemoryClass() * 1024 * 1024;
-            int cacheSize = memClassBytes / 4;
+            int cacheSize = memClassBytes / 3;
             LruCache<String, Bitmap> mCache = new LruCache<>(cacheSize);
             public void putBitmap(String url, Bitmap bitmap) {
                 mCache.put(url, bitmap);

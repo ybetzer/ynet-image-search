@@ -1,12 +1,14 @@
 package com.yonatanbetzer.imagesearch.adapters.viewholders;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.yonatanbetzer.imagesearch.application.ImageSearchApplication;
+import com.yonatanbetzer.imagesearch.controls.RoundedNetworkImageView;
 import com.yonatanbetzer.imagesearch.data_objects.ImageResult;
 import com.yonatanbetzer.imagesearch.R;
 import com.yonatanbetzer.imagesearch.utils.Constants;
@@ -20,6 +22,7 @@ public class ImageResultViewHolder extends RecyclerView.ViewHolder {
     public ImageResultViewHolder(View itemView) {
         super(itemView);
         this.imageView = itemView.findViewById(R.id.image_view);
+
         View shareButton = itemView.findViewById(R.id.share_button);
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,7 +39,13 @@ public class ImageResultViewHolder extends RecyclerView.ViewHolder {
     public void bindTo(ImageResult item){
         if(imageView != null) {
             imageResult = item;
-            imageView.setImageUrl(item.getWebformatURL(), VolleySingleton.getInstance().getImageLoader());
+            imageView.setBackgroundColor(Utils.getRandomColor());
+            if(imageResult.getPreviewHeight() > Constants.IMAGE_HEIGHT) {
+                imageView.setImageUrl(item.getPreviewURL(), VolleySingleton.getInstance().getImageLoader());
+            } else {
+                imageView.setImageUrl(item.getWebformatURL(), VolleySingleton.getInstance().getImageLoader());
+            }
+
             int height = Utils.pixelsFromDP(Constants.IMAGE_HEIGHT);
             ViewGroup.LayoutParams params = itemView.getLayoutParams();
             params.height = height;
