@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <com.android.volley.toolbox.NetworkImageView android:id="@+id/image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    <FrameLayout android:id="@+id/share_button"
+        android:layout_gravity="bottom|start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp">
+        <ImageView android:src="@drawable/share"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+    </FrameLayout>
+
 </FrameLayout>

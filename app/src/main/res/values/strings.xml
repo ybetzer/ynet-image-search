@@ -3,4 +3,6 @@
     <string name="image_search">חיפוש תמונות</string>
     <string name="search_image_hint">חיפוש תמונות</string>
     <string name="go">go</string>
+    <string name="share">שתף</string>
+    <string name="loading_more">טוען תמונות נוספות...</string>
 </resources>

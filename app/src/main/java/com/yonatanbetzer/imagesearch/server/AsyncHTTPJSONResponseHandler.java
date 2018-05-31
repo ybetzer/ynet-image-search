@@ -1,4 +1,4 @@
-package com.yonatanbetzer.imagesearch;
+package com.yonatanbetzer.imagesearch.server;
 
 import org.json.JSONObject;
 

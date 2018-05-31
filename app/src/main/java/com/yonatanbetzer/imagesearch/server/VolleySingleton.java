@@ -1,10 +1,10 @@
-package com.yonatanbetzer.imagesearch;
+package com.yonatanbetzer.imagesearch.server;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -13,13 +13,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.yonatanbetzer.imagesearch.application.ImageSearchApplication;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class VolleySingleton {
     private static VolleySingleton mInstance = null;
@@ -29,8 +27,13 @@ public class VolleySingleton {
 
     private VolleySingleton(){
         mRequestQueue = Volley.newRequestQueue(ImageSearchApplication.getAppContext());
+
         mImageLoader = new ImageLoader(this.mRequestQueue, new ImageLoader.ImageCache() {
-            private final LruCache<String, Bitmap> mCache = new LruCache<>(50);
+
+            ActivityManager am = (ActivityManager) ImageSearchApplication.getAppContext().getSystemService(Context.ACTIVITY_SERVICE);
+            int memClassBytes = am.getMemoryClass() * 1024 * 1024;
+            int cacheSize = memClassBytes / 4;
+            LruCache<String, Bitmap> mCache = new LruCache<>(cacheSize);
             public void putBitmap(String url, Bitmap bitmap) {
                 mCache.put(url, bitmap);
             }

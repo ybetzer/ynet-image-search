@@ -1,4 +1,4 @@
-package com.yonatanbetzer.imagesearch;
+package com.yonatanbetzer.imagesearch.data_objects;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -70,6 +70,18 @@ public class ImageResult {
         result.previewURL = source.optString("previewURL", "");
 
         return result;
+    }
+
+    public int getWidthForHeight(int height) {
+        //
+        //  webformatWidth         newWidth
+        //  --------------    =   ----------
+        //  webformatHeight         height
+
+        if(this.webformatHeight > 0) {
+            return (int)Math.floor(((float)this.webformatWidth / (float)this.webformatHeight) * (float)height);
+        }
+        return 0;
     }
 
     public String getLargeImageURL() {

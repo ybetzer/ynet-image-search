@@ -1,4 +1,4 @@
-package com.yonatanbetzer.imagesearch;
+package com.yonatanbetzer.imagesearch.application;
 
 import android.app.Application;
 import android.content.Context;

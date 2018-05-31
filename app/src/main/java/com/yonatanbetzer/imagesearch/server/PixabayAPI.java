@@ -1,4 +1,6 @@
-package com.yonatanbetzer.imagesearch;
+package com.yonatanbetzer.imagesearch.server;
+
+import com.yonatanbetzer.imagesearch.data_objects.ImageResult;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -8,9 +10,12 @@ import java.util.ArrayList;
 public class PixabayAPI {
     private static final String API_KEY = "6814610-cd083c066ad38bb511337fb2b";
 
-    public static void search(String query, final AsyncImageSearchResultResponseHandler listenr) {
+    public static void search(String query, int page, int resultsPerPage, final AsyncImageSearchResultResponseHandler listenr) {
         VolleySingleton.getInstance().getJSONObjectAsync(
-                "https://pixabay.com/api/?q=" + query + "&key=" + API_KEY,
+                    "https://pixabay.com/api/?q=" + query +
+                        "&key=" + API_KEY +
+                        "&page=" + page +
+                        "&per_page=" + resultsPerPage,
                 new AsyncHTTPJSONResponseHandler() {
             @Override
             public void onSuccess(JSONObject responseBody) {
@@ -19,6 +24,10 @@ public class PixabayAPI {
                     ArrayList<ImageResult> results = ImageResult.fromJsonArray(hits);
                     if(listenr != null) {
                         listenr.onSuccess(results);
+                    }
+                } else {
+                    if(listenr != null) {
+                        listenr.onFailure("Pixabay API Returned null result", 0);
                     }
                 }
             }

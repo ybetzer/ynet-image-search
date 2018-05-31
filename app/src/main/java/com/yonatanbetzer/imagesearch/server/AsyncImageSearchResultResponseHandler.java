@@ -1,4 +1,6 @@
-package com.yonatanbetzer.imagesearch;
+package com.yonatanbetzer.imagesearch.server;
+
+import com.yonatanbetzer.imagesearch.data_objects.ImageResult;
 
 import java.util.ArrayList;
 
