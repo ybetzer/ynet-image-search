@@ -5,4 +5,5 @@
     <string name="go">go</string>
     <string name="share">שתף</string>
     <string name="loading_more">טוען תמונות נוספות...</string>
+    <string name="no_results_found">לא נמצאו תוצאות</string>
 </resources>

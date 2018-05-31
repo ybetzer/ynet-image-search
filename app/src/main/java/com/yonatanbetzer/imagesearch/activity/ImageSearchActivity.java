@@ -5,23 +5,22 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
-import android.widget.Toast;
-
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
+import com.yonatanbetzer.imagesearch.controls.GifView;
 import com.yonatanbetzer.imagesearch.server.AsyncImageSearchResultResponseHandler;
 import com.yonatanbetzer.imagesearch.data_objects.ImageResult;
 import com.yonatanbetzer.imagesearch.adapters.ImageSearchAdapter;
@@ -32,21 +31,18 @@ import com.yonatanbetzer.imagesearch.utils.Constants;
 import java.util.ArrayList;
 
 public class ImageSearchActivity extends Activity {
-
-
-
     private SearchView searchView;
     private String query;
+    private RecyclerView imageGrid;
+    private ViewGroup noResultsContainer;
+    private ImageSearchAdapter imageGridAdapter;
+    private ArrayList<ImageResult> results = new ArrayList<>();
+    private ProgressBar progressBar;
+    private View loadingMore;
 
-    RecyclerView imageGrid;
-    ImageSearchAdapter imageGridAdapter;
-    ArrayList<ImageResult> results = new ArrayList<>();
-    ProgressBar progressBar;
-    View loadingMore;
-
-    int page = 1;
-    boolean isLastPage = false;
-    boolean isLoading = false;
+    private int page = 1;
+    private boolean isLastPage = false;
+    private boolean isLoading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +55,9 @@ public class ImageSearchActivity extends Activity {
         }
 
         progressBar = findViewById(R.id.progress_bar);
-
+        GifView noResultsGif = findViewById(R.id.no_results);
+        noResultsGif.setImageResource(R.drawable.vincent_vega);
+        noResultsContainer = findViewById(R.id.no_results_container);
         loadingMore = findViewById(R.id.loading_more);
         imageGrid = findViewById(R.id.image_grid);
         imageGrid.setHasFixedSize(true);
@@ -100,22 +98,17 @@ public class ImageSearchActivity extends Activity {
         handleIntent(getIntent());
     }
 
-    private void showLoadingMore() {
-        if(loadingMore != null) {
-            loadingMore.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void hideLoadingMore() {
-        if(loadingMore != null) {
-            loadingMore.setVisibility(View.GONE);
-        }
-    }
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         handleIntent(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        createSearchView(menu);
+        return true;
     }
 
     private void handleIntent(Intent intent) {
@@ -126,18 +119,16 @@ public class ImageSearchActivity extends Activity {
         }
     }
 
-    private void resetSearchQuery() {
-        isLastPage = false;
-        page = 1;
-        results.clear();
-        imageGridAdapter.notifyDataSetChanged();
+    private void showLoadingMore() {
+        if(loadingMore != null) {
+            loadingMore.setVisibility(View.VISIBLE);
+        }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        createSearchView(menu);
-        return true;
+    private void hideLoadingMore() {
+        if(loadingMore != null) {
+            loadingMore.setVisibility(View.GONE);
+        }
     }
 
     private void createSearchView(Menu menu) {
@@ -176,6 +167,13 @@ public class ImageSearchActivity extends Activity {
         goButton.setImageResource(R.drawable.go_button);
     }
 
+    private void resetSearchQuery() {
+        isLastPage = false;
+        page = 1;
+        results.clear();
+        imageGridAdapter.notifyDataSetChanged();
+    }
+
     private void removeFocusFromSearchView() {
         if(searchView != null && searchView.hasFocus()) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -203,6 +201,13 @@ public class ImageSearchActivity extends Activity {
                     progressBar.setVisibility(View.GONE);
                     isLoading = false;
                     hideLoadingMore();
+                    if(responseBody.size() == 0 && page == 1) {
+                        imageGrid.setVisibility(View.GONE);
+                        noResultsContainer.setVisibility(View.VISIBLE);
+                    } else {
+                        imageGrid.setVisibility(View.VISIBLE);
+                        noResultsContainer.setVisibility(View.GONE);
+                    }
                 }
 
                 @Override
@@ -211,6 +216,10 @@ public class ImageSearchActivity extends Activity {
                     isLastPage = true;
                     isLoading = false;
                     hideLoadingMore();
+                    if(page == 1) {
+                        imageGrid.setVisibility(View.GONE);
+                        noResultsContainer.setVisibility(View.VISIBLE);
+                    }
                 }
             });
         }
