@@ -5,12 +5,19 @@ import com.yonatanbetzer.imagesearch.data_objects.ImageResult;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class PixabayAPI {
     private static final String API_KEY = "6814610-cd083c066ad38bb511337fb2b";
 
     public static void search(String query, int page, int resultsPerPage, final AsyncImageSearchResultResponseHandler listenr) {
+        try {
+            query = URLEncoder.encode(query, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         VolleySingleton.getInstance().getJSONObjectAsync(
                     "https://pixabay.com/api/?q=" + query +
                         "&key=" + API_KEY +

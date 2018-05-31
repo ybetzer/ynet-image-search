@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.bumptech.glide.Glide;
 import com.yonatanbetzer.imagesearch.application.ImageSearchApplication;
 import com.yonatanbetzer.imagesearch.data_objects.ImageResult;
 import com.yonatanbetzer.imagesearch.R;
@@ -14,7 +16,7 @@ import com.yonatanbetzer.imagesearch.utils.Utils;
 import com.yonatanbetzer.imagesearch.server.VolleySingleton;
 
 public class ImageResultViewHolder extends RecyclerView.ViewHolder {
-    private NetworkImageView imageView;
+    private ImageView imageView;
     private ImageResult imageResult;
 
     public ImageResultViewHolder(View itemView) {
@@ -40,9 +42,13 @@ public class ImageResultViewHolder extends RecyclerView.ViewHolder {
             imageView.setBackgroundColor(Utils.getRandomColor());
 
             if(imageResult.getPreviewHeight() > Constants.IMAGE_HEIGHT) {
-                imageView.setImageUrl(item.getPreviewURL(), VolleySingleton.getInstance().getImageLoader());
+                Glide.with(ImageSearchApplication.getAppContext())
+                        .load(item.getPreviewURL())
+                        .into(imageView);
             } else {
-                imageView.setImageUrl(item.getWebformatURL(), VolleySingleton.getInstance().getImageLoader());
+                Glide.with(ImageSearchApplication.getAppContext())
+                        .load(item.getWebformatURL())
+                        .into(imageView);
             }
 
             int height = Utils.pixelsFromDP(Constants.IMAGE_HEIGHT);
