@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -66,8 +67,7 @@ public class ImageSearchActivity extends Activity {
         imageGrid.setHasFixedSize(true);
 
         TextView loadingMoreTextView = findViewById(R.id.loading_more_text);
-        Typeface font = Typeface.createFromAsset(getAssets(), Constants.OPEN_SANS_REGULAR_HEBREW);
-        loadingMoreTextView.setTypeface(font);
+        loadingMoreTextView.setTypeface(Constants.openSansRegularHebrew);
 
         final FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
         layoutManager.setFlexDirection(FlexDirection.ROW);
@@ -151,6 +151,11 @@ public class ImageSearchActivity extends Activity {
         searchView.setIconified(false);
         searchView.setSubmitButtonEnabled(true);
 
+        int searchTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        TextView searchText = searchView.findViewById(searchTextId);
+        if(searchText != null) {
+            searchText.setTypeface(Constants.openSansRegularHebrew);
+        }
         if(query != null) {
             searchView.setQuery(query, false);
         }
@@ -170,8 +175,8 @@ public class ImageSearchActivity extends Activity {
             }
         });
 
-        int id = searchView.getContext().getResources().getIdentifier("android:id/search_go_btn", null, null);
-        ImageView goButton = searchView.findViewById(id);
+        int goButtonId = searchView.getContext().getResources().getIdentifier("android:id/search_go_btn", null, null);
+        ImageView goButton = searchView.findViewById(goButtonId);
         goButton.setImageResource(R.drawable.go_button);
     }
 

@@ -38,13 +38,14 @@ public class ImageResultViewHolder extends RecyclerView.ViewHolder {
         if(imageView != null) {
             imageResult = item;
             imageView.setBackgroundColor(Utils.getRandomColor());
-            if(imageResult.getPreviewHeight() > Constants.IMAGE_HEIGHT_FOR_HDPI) {
+
+            if(imageResult.getPreviewHeight() > Constants.IMAGE_HEIGHT) {
                 imageView.setImageUrl(item.getPreviewURL(), VolleySingleton.getInstance().getImageLoader());
             } else {
                 imageView.setImageUrl(item.getWebformatURL(), VolleySingleton.getInstance().getImageLoader());
             }
 
-            int height = Utils.pixelsFromDP(Constants.IMAGE_HEIGHT_FOR_HDPI);
+            int height = Utils.pixelsFromDP(Constants.IMAGE_HEIGHT);
             ViewGroup.LayoutParams params = itemView.getLayoutParams();
             params.height = height;
             params.width = item.getWidthForHeight(height);
