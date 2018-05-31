@@ -1,14 +1,12 @@
 package com.yonatanbetzer.imagesearch.adapters.viewholders;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.yonatanbetzer.imagesearch.application.ImageSearchApplication;
-import com.yonatanbetzer.imagesearch.controls.RoundedNetworkImageView;
 import com.yonatanbetzer.imagesearch.data_objects.ImageResult;
 import com.yonatanbetzer.imagesearch.R;
 import com.yonatanbetzer.imagesearch.utils.Constants;
@@ -40,13 +38,13 @@ public class ImageResultViewHolder extends RecyclerView.ViewHolder {
         if(imageView != null) {
             imageResult = item;
             imageView.setBackgroundColor(Utils.getRandomColor());
-            if(imageResult.getPreviewHeight() > Constants.IMAGE_HEIGHT) {
+            if(imageResult.getPreviewHeight() > Constants.IMAGE_HEIGHT_FOR_HDPI) {
                 imageView.setImageUrl(item.getPreviewURL(), VolleySingleton.getInstance().getImageLoader());
             } else {
                 imageView.setImageUrl(item.getWebformatURL(), VolleySingleton.getInstance().getImageLoader());
             }
 
-            int height = Utils.pixelsFromDP(Constants.IMAGE_HEIGHT);
+            int height = Utils.pixelsFromDP(Constants.IMAGE_HEIGHT_FOR_HDPI);
             ViewGroup.LayoutParams params = itemView.getLayoutParams();
             params.height = height;
             params.width = item.getWidthForHeight(height);

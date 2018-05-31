@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -15,6 +16,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.TextView;
+
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
@@ -61,6 +64,11 @@ public class ImageSearchActivity extends Activity {
         loadingMore = findViewById(R.id.loading_more);
         imageGrid = findViewById(R.id.image_grid);
         imageGrid.setHasFixedSize(true);
+
+        TextView loadingMoreTextView = findViewById(R.id.loading_more_text);
+        Typeface font = Typeface.createFromAsset(getAssets(), Constants.OPEN_SANS_REGULAR_HEBREW);
+        loadingMoreTextView.setTypeface(font);
+
         final FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
         layoutManager.setFlexDirection(FlexDirection.ROW);
         layoutManager.setAlignItems(AlignItems.FLEX_START);
