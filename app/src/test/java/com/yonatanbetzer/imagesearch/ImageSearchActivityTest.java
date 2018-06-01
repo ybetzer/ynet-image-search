@@ -1,6 +1,5 @@
 package com.yonatanbetzer.imagesearch;
 
-import android.app.Activity;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -34,7 +33,6 @@ public class ImageSearchActivityTest {
     public void activityInNotNull() {
         assertNotNull("ImageSearchActivity is null", activity);
     }
-
 
     @Test
     public void searchViewInNotNull() {

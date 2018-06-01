@@ -40,7 +40,7 @@ public class ImageSearchActivity extends Activity {
     private RecyclerView imageGrid;
     private ViewGroup noResultsContainer;
     private ImageSearchAdapter imageGridAdapter;
-    private ArrayList<ImageResult> results = new ArrayList<>();
+    public ArrayList<ImageResult> results = new ArrayList<>();
     private ProgressBar progressBar;
     private View loadingMore;
 
