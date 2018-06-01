@@ -24,6 +24,7 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
+import com.yonatanbetzer.imagesearch.application.ImageSearchApplication;
 import com.yonatanbetzer.imagesearch.controls.GifView;
 import com.yonatanbetzer.imagesearch.server.AsyncImageSearchResultResponseHandler;
 import com.yonatanbetzer.imagesearch.data_objects.ImageResult;
@@ -104,6 +105,12 @@ public class ImageSearchActivity extends Activity {
         });
 
         handleIntent(getIntent());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ImageSearchApplication.setCurrentActivity(this);
     }
 
     @Override

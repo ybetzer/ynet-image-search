@@ -31,7 +31,7 @@ public class ImageResultViewHolder extends RecyclerView.ViewHolder {
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, imageResult.getPageURL());
                 sendIntent.setType("text/plain");
-                ImageSearchApplication.getAppContext().startActivity(Intent.createChooser(sendIntent, ImageSearchApplication.getAppContext().getResources().getText(R.string.share)));
+                ImageSearchApplication.getCurrentActivity().startActivity(Intent.createChooser(sendIntent, ImageSearchApplication.getAppContext().getResources().getText(R.string.share)));
             }
         });
     }
