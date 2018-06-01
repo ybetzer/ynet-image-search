@@ -84,48 +84,28 @@ public class ImageResult {
         return 0;
     }
 
-    public String getLargeImageURL() {
-        return largeImageURL;
-    }
-
     public int getWebformatHeight() {
         return webformatHeight;
+    }
+
+    public void setWebformatHeight(int value) {
+        webformatHeight = value;
     }
 
     public int getWebformatWidth() {
         return webformatWidth;
     }
 
-    public int getLikes() {
-        return likes;
-    }
-
-    public int getImageWidth() {
-        return imageWidth;
+    public void setWebformatWidth(int value) {
+        webformatWidth = value;
     }
 
     public int getId() {
         return id;
     }
 
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public int getViews() {
-        return views;
-    }
-
-    public int getComments() {
-        return comments;
-    }
-
     public String getPageURL() {
         return pageURL;
-    }
-
-    public int getImageHeight() {
-        return imageHeight;
     }
 
     public String getWebformatURL() {
@@ -138,34 +118,6 @@ public class ImageResult {
 
     public int getPreviewHeight() {
         return previewHeight;
-    }
-
-    public String getTags() {
-        return tags;
-    }
-
-    public int getDownloads() {
-        return downloads;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public int getFavorites() {
-        return favorites;
-    }
-
-    public int getImageSize() {
-        return imageSize;
-    }
-
-    public int getPreviewWidth() {
-        return previewWidth;
-    }
-
-    public String getUserImageURL() {
-        return userImageURL;
     }
 
     public String getPreviewURL() {

@@ -14,6 +14,7 @@ public class GifView extends View {
     private Movie mMovie;
     private int mCurrentAnimationTime = 0;
     private int count = 0;
+    private int imageResourceId = 0;
 
     @SuppressLint("NewApi")
     public GifView(Context context, AttributeSet attrs) {
@@ -22,8 +23,13 @@ public class GifView extends View {
     }
 
     public void setImageResource(int mvId){
+        imageResourceId = mvId;
         mMovie = Movie.decodeStream(getResources().openRawResource(mvId));
         requestLayout();
+    }
+
+    public boolean hasImageResource(){
+        return imageResourceId > 0;
     }
 
     @Override

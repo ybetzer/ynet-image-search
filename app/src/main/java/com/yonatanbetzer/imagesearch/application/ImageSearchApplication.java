@@ -11,8 +11,7 @@ public class ImageSearchApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-
-        this.setAppContext(getApplicationContext());
+        mAppContext = getApplicationContext();
     }
 
     public static ImageSearchApplication getInstance(){
@@ -20,8 +19,5 @@ public class ImageSearchApplication extends Application {
     }
     public static Context getAppContext() {
         return mAppContext;
-    }
-    public void setAppContext(Context mAppContext) {
-        this.mAppContext = mAppContext;
     }
 }
